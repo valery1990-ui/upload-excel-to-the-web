@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excel数据可视化平台</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container-fluid">
+        <!-- 顶部导航栏 -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">
+                    <i class="bi bi-table me-2"></i>Excel数据可视化平台
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" id="exportCSV">
+                                <i class="bi bi-download me-1"></i>导出CSV
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" id="exportExcel">
+                                <i class="bi bi-file-earmark-excel me-1"></i>导出Excel
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" id="printData">
+                                <i class="bi bi-printer me-1"></i>打印
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- 主要内容区域 -->
+        <div class="row mt-4">
+            <!-- 左侧控制面板 -->
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">数据控制</h5>
+                    </div>
+                    <div class="card-body">
+                        <!-- 搜索框 -->
+                        <div class="mb-3">
+                            <label for="searchInput" class="form-label">搜索数据</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="searchInput" placeholder="输入关键词...">
+                                <button class="btn btn-primary" id="searchBtn">
+                                    <i class="bi bi-search"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- 筛选选项 -->
+                        <div class="mb-3">
+                            <label class="form-label">筛选条件</label>
+                            <select class="form-select mb-2" id="filterColumn">
+                                <option selected>选择列...</option>
+                                <!-- 动态生成列选项 -->
+                            </select>
+                            <select class="form-select" id="filterValue">
+                                <option selected>选择值...</option>
+                                <!-- 动态生成值选项 -->
+                            </select>
+                        </div>
+
+                        <!-- 排序选项 -->
+                        <div class="mb-3">
+                            <label class="form-label">排序方式</label>
+                            <div class="d-flex">
+                                <select class="form-select me-2" id="sortColumn">
+                                    <option selected>选择列...</option>
+                                    <!-- 动态生成列选项 -->
+                                </select>
+                                <select class="form-select" id="sortOrder">
+                                    <option value="asc">升序</option>
+                                    <option value="desc">降序</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- 操作按钮 -->
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-primary" id="applyFilters">应用筛选</button>
+                            <button class="btn btn-secondary" id="resetFilters">重置筛选</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 数据统计卡片 -->
+                <div class="card mt-3">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">数据统计</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-6 mb-3">
+                                <div class="stat-card">
+                                    <h6>总行数</h6>
+                                    <h3 id="totalRows">0</h3>
+                                </div>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <div class="stat-card">
+                                    <h6>总列数</h6>
+                                    <h3 id="totalColumns">0</h3>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="stat-card">
+                                    <h6>筛选后行数</h6>
+                                    <h3 id="filteredRows">0</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右侧数据展示区域 -->
+            <div class="col-md-9">
+                <!-- 数据表格卡片 -->
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="card-title mb-0">数据表格</h5>
+                        <div class="btn-group">
+                            <button class="btn btn-sm btn-outline-secondary" id="prevPage">
+                                <i class="bi bi-chevron-left"></i>
+                            </button>
+                            <span class="btn btn-sm btn-outline-secondary disabled" id="pageInfo">第1页/共1页</span>
+                            <button class="btn btn-sm btn-outline-secondary" id="nextPage">
+                                <i class="bi bi-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body table-responsive">
+                        <table class="table table-striped table-hover" id="dataTable">
+                            <thead>
+                                <tr id="tableHeader">
+                                    <!-- 动态生成表头 -->
+                                </tr>
+                            </thead>
+                            <tbody id="tableBody">
+                                <!-- 动态生成表格内容 -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- 数据可视化卡片 -->
+                <div class="card mt-3">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">数据可视化</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <div class="chart-container">
+                                    <canvas id="barChart"></canvas>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="chart-container">
+                                    <canvas id="pieChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 页脚 -->
+        <footer class="mt-4 mb-3 text-center text-muted">
+            <p>Excel数据可视化平台 &copy; 2023</p>
+        </footer>
+    </div>
+
+    <!-- JavaScript 文件 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
