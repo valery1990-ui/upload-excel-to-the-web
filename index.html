@@ -14,7 +14,7 @@
         <!-- 顶部导航栏 -->
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">
+                <a class="navbar-brand" href="#" data-i18n="brandTitle">
                     <i class="bi bi-table me-2"></i>Excel数据可视化平台
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -23,19 +23,22 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="#" id="exportCSV">
+                            <a class="nav-link" href="#" id="exportCSV" data-i18n="exportCSV">
                                 <i class="bi bi-download me-1"></i>导出CSV
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#" id="exportExcel">
+                            <a class="nav-link" href="#" id="exportExcel" data-i18n="exportExcel">
                                 <i class="bi bi-file-earmark-excel me-1"></i>导出Excel
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#" id="printData">
+                            <a class="nav-link" href="#" id="printData" data-i18n="printData">
                                 <i class="bi bi-printer me-1"></i>打印
                             </a>
+                        </li>
+                        <li class="nav-item">
+                            <button class="btn btn-outline-secondary ms-2" id="langToggle">English</button>
                         </li>
                     </ul>
                 </div>
@@ -48,14 +51,14 @@
             <div class="col-md-3">
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="card-title mb-0">数据控制</h5>
+                        <h5 class="card-title mb-0" data-i18n="dataControl">数据控制</h5>
                     </div>
                     <div class="card-body">
                         <!-- 搜索框 -->
                         <div class="mb-3">
-                            <label for="searchInput" class="form-label">搜索数据</label>
+                            <label for="searchInput" class="form-label" data-i18n="searchData">搜索数据</label>
                             <div class="input-group">
-                                <input type="text" class="form-control" id="searchInput" placeholder="输入关键词...">
+                                <input type="text" class="form-control" id="searchInput" placeholder="输入关键词..." data-i18n-placeholder="searchPlaceholder">
                                 <button class="btn btn-primary" id="searchBtn">
                                     <i class="bi bi-search"></i>
                                 </button>
@@ -64,36 +67,36 @@
 
                         <!-- 筛选选项 -->
                         <div class="mb-3">
-                            <label class="form-label">筛选条件</label>
-                            <select class="form-select mb-2" id="filterColumn">
-                                <option selected>选择列...</option>
+                            <label class="form-label" data-i18n="filterCondition">筛选条件</label>
+                            <select class="form-select mb-2" id="filterColumn" data-i18n-placeholder="selectColumn">
+                                <option selected data-i18n="selectColumn">选择列...</option>
                                 <!-- 动态生成列选项 -->
                             </select>
-                            <select class="form-select" id="filterValue">
-                                <option selected>选择值...</option>
+                            <select class="form-select" id="filterValue" data-i18n-placeholder="selectValue">
+                                <option selected data-i18n="selectValue">选择值...</option>
                                 <!-- 动态生成值选项 -->
                             </select>
                         </div>
 
                         <!-- 排序选项 -->
                         <div class="mb-3">
-                            <label class="form-label">排序方式</label>
+                            <label class="form-label" data-i18n="sortMethod">排序方式</label>
                             <div class="d-flex">
-                                <select class="form-select me-2" id="sortColumn">
-                                    <option selected>选择列...</option>
+                                <select class="form-select me-2" id="sortColumn" data-i18n-placeholder="selectColumn">
+                                    <option selected data-i18n="selectColumn">选择列...</option>
                                     <!-- 动态生成列选项 -->
                                 </select>
                                 <select class="form-select" id="sortOrder">
-                                    <option value="asc">升序</option>
-                                    <option value="desc">降序</option>
+                                    <option value="asc" data-i18n="asc">升序</option>
+                                    <option value="desc" data-i18n="desc">降序</option>
                                 </select>
                             </div>
                         </div>
 
                         <!-- 操作按钮 -->
                         <div class="d-grid gap-2">
-                            <button class="btn btn-primary" id="applyFilters">应用筛选</button>
-                            <button class="btn btn-secondary" id="resetFilters">重置筛选</button>
+                            <button class="btn btn-primary" id="applyFilters" data-i18n="applyFilter">应用筛选</button>
+                            <button class="btn btn-secondary" id="resetFilters" data-i18n="resetFilter">重置筛选</button>
                         </div>
                     </div>
                 </div>
@@ -101,25 +104,25 @@
                 <!-- 数据统计卡片 -->
                 <div class="card mt-3">
                     <div class="card-header">
-                        <h5 class="card-title mb-0">数据统计</h5>
+                        <h5 class="card-title mb-0" data-i18n="dataStats">数据统计</h5>
                     </div>
                     <div class="card-body">
                         <div class="row">
                             <div class="col-6 mb-3">
                                 <div class="stat-card">
-                                    <h6>总行数</h6>
+                                    <h6 data-i18n="totalRows">总行数</h6>
                                     <h3 id="totalRows">0</h3>
                                 </div>
                             </div>
                             <div class="col-6 mb-3">
                                 <div class="stat-card">
-                                    <h6>总列数</h6>
+                                    <h6 data-i18n="totalColumns">总列数</h6>
                                     <h3 id="totalColumns">0</h3>
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="stat-card">
-                                    <h6>筛选后行数</h6>
+                                    <h6 data-i18n="filteredRows">筛选后行数</h6>
                                     <h3 id="filteredRows">0</h3>
                                 </div>
                             </div>
@@ -133,12 +136,12 @@
                 <!-- 数据表格卡片 -->
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="card-title mb-0">数据表格</h5>
+                        <h5 class="card-title mb-0" data-i18n="dataTable">数据表格</h5>
                         <div class="btn-group">
                             <button class="btn btn-sm btn-outline-secondary" id="prevPage">
                                 <i class="bi bi-chevron-left"></i>
                             </button>
-                            <span class="btn btn-sm btn-outline-secondary disabled" id="pageInfo">第1页/共1页</span>
+                            <span class="btn btn-sm btn-outline-secondary disabled" id="pageInfo" data-i18n="pageInfo">第1页/共1页</span>
                             <button class="btn btn-sm btn-outline-secondary" id="nextPage">
                                 <i class="bi bi-chevron-right"></i>
                             </button>
@@ -161,7 +164,7 @@
                 <!-- 数据可视化卡片 -->
                 <div class="card mt-3">
                     <div class="card-header">
-                        <h5 class="card-title mb-0">数据可视化</h5>
+                        <h5 class="card-title mb-0" data-i18n="dataVisualization">数据可视化</h5>
                     </div>
                     <div class="card-body">
                         <div class="row">
@@ -183,7 +186,7 @@
 
         <!-- 页脚 -->
         <footer class="mt-4 mb-3 text-center text-muted">
-            <p>Excel数据可视化平台 &copy; 2023</p>
+            <p data-i18n="footer">Excel数据可视化平台 &copy; 2023</p>
         </footer>
     </div>
 
